@@ -1,73 +1,28 @@
-import { error } from "console";
+import css from "./NoteForm.module.css";
 
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    font-size: 14px;
-    font-weight: 500;
-    color: #212529;
-  }
-  
-  .input,
-  .textarea,
-  .select {
-    margin-top: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    resize: none;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-  }
-  
-  .submitButton {
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #0d6efd;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: #0b5ed7;
-  }
-  
-  .submitButton:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-  }
-  
-  .cancelButton {
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #f8f9fa;
-    color: #212529;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .cancelButton:hover {
-    background-color: #e2e6ea;
-  }
-  
-  .error {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 4px;
-  }
+function NoteForm() {
+  return (
+    <form className={css.form}>
+      <div className={css.formGroup}>
+        <label className={css.label}>Title</label>
+        <input className={css.input} type="text" />
+      </div>
+
+      <div className={css.formGroup}>
+        <label className={css.label}>Content</label>
+        <textarea className={css.textarea} />
+      </div>
+
+      <div className={css.actions}>
+        <button className={css.submitButton} type="submit">
+          Create
+        </button>
+        <button className={css.cancelButton} type="button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
+export default NoteForm;

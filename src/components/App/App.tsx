@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import css from "./App.module.css";
 import { fetchNotes } from "../../services/noteService";
 import NoteList from "../NoteList/NoteList";
 
 function App() {
+  const [page, setPage] = useState(1);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["notes"],
-    queryFn: () => fetchNotes({ page: 1 }),
+    queryFn: () => fetchNotes({ page: 1, perPage: 12 }),
   });
 
   const notes = data?.notes ?? [];
