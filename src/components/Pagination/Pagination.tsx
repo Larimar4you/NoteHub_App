@@ -1,15 +1,4 @@
 import css from "./Pagination.module.css";
-import ReactPaginateModule from "react-paginate";
-import { type ReactPaginateProps } from "react-paginate";
-import { type ComponentType } from "react";
-
-type ModuleWithDefault<T> = { default: T };
-
-const ReactPaginate = (
-  ReactPaginateModule as unknown as ModuleWithDefault<
-    ComponentType<ReactPaginateProps>
-  >
-).default;
 
 interface PaginationProps {
   totalPages: number;
@@ -22,5 +11,37 @@ export default function Pagination({
   currentPage,
   onPageChange,
 }: PaginationProps) {
-  return <ReactPaginate />;
+  if (totalPages <= 1) return null;
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  return (
+    <div className={css.pagination}>
+      <button
+        className={css.button}
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+      >
+        Prev
+      </button>
+
+      {pages.map((page) => (
+        <button
+          key={page}
+          className={`${css.page} ${page === currentPage ? css.active : ""}`}
+          onClick={() => onPageChange(page)}
+        >
+          {page}
+        </button>
+      ))}
+
+      <button
+        className={css.button}
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+      >
+        Next
+      </button>
+    </div>
+  );
 }
