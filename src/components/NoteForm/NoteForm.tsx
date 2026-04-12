@@ -21,7 +21,7 @@ const initialValues: FormValues = {
 const NoteFormSchema = Yup.object({
   title: Yup.string()
     .required("Title is required")
-    .max(100, "Max 100 characters"),
+    .max(50, "Max 50 characters"),
 
   content: Yup.string().max(500, "Max 500 characters"),
 
