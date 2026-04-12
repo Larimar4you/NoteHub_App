@@ -3,11 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "../../services/noteService";
-
 interface NoteFormProps {
   onClose: () => void;
 }
-
 interface FormValues {
   title: string;
   content: string;
@@ -20,17 +18,19 @@ const initialValues: FormValues = {
   tag: "Todo",
 };
 
-// ✅ 1. СХЕМА ВАЛИДАЦИИ (раньше её не было)
 const NoteFormSchema = Yup.object({
-  title: Yup.string().required("Title is required"),
-  content: Yup.string().required("Content is required"),
+  title: Yup.string()
+    .required("Title is required")
+    .max(100, "Max 100 characters"),
+
+  content: Yup.string().max(500, "Max 500 characters"),
+
   tag: Yup.string().oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"]),
 });
 
 export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
-  // ✅ 2. МУТАЦИЯ (раньше mutation не существовал)
   const mutation = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
@@ -39,7 +39,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     },
   });
 
-  // ✅ 3. handleSubmit (раньше его не было)
   const handleSubmit = (values: FormValues) => {
     mutation.mutate(values);
   };
@@ -47,8 +46,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={NoteFormSchema} // ← исправлено
-      onSubmit={handleSubmit} // ← исправлено
+      validationSchema={NoteFormSchema}
+      onSubmit={handleSubmit}
     >
       <Form className={css.form}>
         <div className={css.formGroup}>

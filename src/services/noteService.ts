@@ -35,7 +35,7 @@ export const fetchNotes = async (
 };
 
 export const createNote = async (newNote: NewNote): Promise<Note> => {
-  const response = await noteHubApi.post("/notes", newNote);
+  const response = await noteHubApi.post<Note>("/notes", newNote);
   return response.data;
 };
 

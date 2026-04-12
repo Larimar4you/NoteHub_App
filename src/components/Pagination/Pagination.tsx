@@ -1,4 +1,15 @@
+import type { ComponentType } from "react";
+import ReactPaginateModule from "react-paginate";
+import type { ReactPaginateProps } from "react-paginate";
 import css from "./Pagination.module.css";
+
+type ModuleWithDefault<T> = { default: T };
+
+const ReactPaginate = (
+  ReactPaginateModule as unknown as ModuleWithDefault<
+    ComponentType<ReactPaginateProps>
+  >
+).default;
 
 interface PaginationProps {
   totalPages: number;
@@ -13,35 +24,25 @@ export default function Pagination({
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    onPageChange(selected + 1); // ReactPaginate uses 0-based index
+  };
 
   return (
-    <div className={css.pagination}>
-      <button
-        className={css.button}
-        disabled={currentPage === 1}
-        onClick={() => onPageChange(currentPage - 1)}
-      >
-        Prev
-      </button>
-
-      {pages.map((page) => (
-        <button
-          key={page}
-          className={`${css.page} ${page === currentPage ? css.active : ""}`}
-          onClick={() => onPageChange(page)}
-        >
-          {page}
-        </button>
-      ))}
-
-      <button
-        className={css.button}
-        disabled={currentPage === totalPages}
-        onClick={() => onPageChange(currentPage + 1)}
-      >
-        Next
-      </button>
-    </div>
+    <ReactPaginate
+      pageCount={totalPages}
+      forcePage={currentPage - 1}
+      onPageChange={handlePageChange}
+      containerClassName={css.pagination}
+      pageClassName={css.page}
+      activeClassName={css.active}
+      previousClassName={css.button}
+      nextClassName={css.button}
+      previousLabel="Prev"
+      nextLabel="Next"
+      breakLabel="..."
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={3}
+    />
   );
 }
