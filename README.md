@@ -6,7 +6,7 @@ with a clean interface and efficient data handling.
 
 ## Live Demo
 
-https://05-notehub-4lsy.vercel.app/
+note-hub-app-fawn.vercel.app
 
 ## Repository
 
