@@ -10,7 +10,6 @@ const ReactPaginate = (
     ComponentType<ReactPaginateProps>
   >
 ).default;
-
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
